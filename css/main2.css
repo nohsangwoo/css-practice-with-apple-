@@ -1,22 +1,18 @@
 @charset 'utf-8';
-
 html {
   font-family: "Apple SD Gothic", "맑은고딕", "Nanum Gothic", "Noto Sans KR",
     sans-serif;
   font-size: 14px;
 }
-
 body {
   overflow-x: hidden;
   color: rgb(29, 29, 31);
   letter-spacing: -0.05em;
   background: white;
 }
-
 p {
   line-height: 1.6;
 }
-
 a {
   color: rgb(29, 29, 31);
   text-decoration: none;
@@ -30,7 +26,6 @@ a {
   height: 44px;
   padding: 0 1rem;
 }
-
 .local-nav {
   position: absolute;
   top: 45px;
@@ -40,7 +35,6 @@ a {
   border-bottom: 1px solid #ddd;
   padding: 0 1rem;
 }
-
 /* 네비게이션 가로 */
 .global-nav-links,
 .local-nav-links {
@@ -75,7 +69,6 @@ a {
   font-size: 4rem;
   text-align: center;
 }
-
 .main-message {
   display: flex;
   flex-direction: row;
@@ -85,7 +78,6 @@ a {
   height: 3em;
   font-size: 2.5rem;
 }
-
 .main-message > p {
   font-weight: bold;
   text-align: center;
@@ -119,13 +111,11 @@ a {
   font-weight: bold;
   width: 50%;
 }
-
 .pin {
   width: 1px;
   height: 100px;
   background: rgb(29, 29, 31);
 }
-
 .mid-message {
   max-width: 1000px;
   margin: 0 auto;
@@ -133,11 +123,9 @@ a {
   font-size: 2rem;
   color: #888;
 }
-
 .mid-message > strong {
   color: rgb(29, 29, 31);
 }
-
 .canvas-caption {
   max-width: 1000px;
   margin: 0 auto;
@@ -145,7 +133,6 @@ a {
   font-size: 1.2rem;
   color: #888;
 }
-
 .footer {
   display: flex;
   align-items: center;
@@ -154,7 +141,6 @@ a {
   background: darkorange;
   color: white;
 }
-
 .sticky-elem {
   display: none;
   position: fixed;
@@ -162,7 +148,6 @@ a {
   left: 0;
   width: 100%;
 }
-
 #show-scene-0 #scroll-section-0 .sticky-elem,
 #show-scene-1 #scroll-section-1 .sticky-elem,
 #show-scene-2 #scroll-section-2 .sticky-elem,

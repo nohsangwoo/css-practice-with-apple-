@@ -12,6 +12,13 @@
       //   objs: 해당 아이디를 가진 dom을 불러와서 저장해둔다.
       objs: {
         container: document.querySelector("#scroll-section-0"),
+        messageA: document.querySelector("#scroll-section-0 .main-message.a"),
+        messageB: document.querySelector("#scroll-section-0 .main-message.b"),
+        messageC: document.querySelector("#scroll-section-0 .main-message.c"),
+        messageD: document.querySelector("#scroll-section-0 .main-message.d"),
+      },
+      values: {
+        messageA_opacity: [0, 1],
       },
     },
     {
@@ -70,6 +77,25 @@
     document.body.setAttribute("id", `show-scene-${currentScene}`);
     // ------------------------end of finding currentScene index----------------
   }
+
+  function playAnimation() {
+    switch (currentScene) {
+      case 0:
+        // console.log("0 play");
+        break;
+      case 1:
+        // console.log("1 play");
+        break;
+      case 2:
+        console.log("2 play");
+        break;
+      case 3:
+        // console.log("3 play");
+        break;
+      default:
+        break;
+    }
+  }
   // 스크롤 할때마다 작동하는 이벤트 내용들
   function scrollLoop() {
     prevScrollHeight = 0;
@@ -79,6 +105,7 @@
     //   만약 yOffset(현재 스크롤 위치) 가  prevScrollHeight(상단영역의 총합)보다 커진다면  currentScene을 +1해줌
     if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
       currentScene = currentScene + 1;
+      //   documnet의 body의 속성을 추가하는데 어떤 속성이냐하면 id속성이다
       document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
     if (yOffset < prevScrollHeight) {
@@ -97,8 +124,7 @@
     //     " // 현재 인덱스: ",
     //     currentScene
     //   );
-
-    //   documnet의 body의 속성을 추가하는데 어떤 속성이냐하면 id속성이다
+    playAnimation();
   }
   // 스크롤될때 이벤트 작동
   window.addEventListener("scroll", () => {
