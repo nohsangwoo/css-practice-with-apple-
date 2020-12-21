@@ -52,9 +52,9 @@
   function setLayout() {
     //   각 스크롤 섹션의 높이 세팅
     for (let i = 0; i < sceneInfo.length; i++) {
-      // 현재 사용자의 기기의 높이를 기준 5배
+      // 현재 사용자의 기기의 높이를 기준 5배(heightNum)
       sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
-      //  obj에서 불러온 dom의 height 값을 위에서 지정한 사용자 기기높이의 5배로 지정해줌
+      //  obj에서 불러온 dom의 height 값을 위에서 지정한 사용자 기기높이의 5배(heightNum)로 지정해줌
       sceneInfo[
         i
       ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
@@ -78,21 +78,30 @@
     // ------------------------end of finding currentScene index----------------
   }
 
-  function calcValues(values, currentYOffset) {}
+  function calcValues(values, currentYOffset) {
+    let result;
+    const scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
+    result = scrollRatio * (values[1] - values[0]) + values[0];
+    return result;
+  }
   //   현재 위치하는 Scene에서 돌아가는 애니메이션 정하기
   function playAnimation() {
     const objs = sceneInfo[currentScene].objs;
     const values = sceneInfo[currentScene].values;
     const currentYOffset = yOffset - prevScrollHeight;
-    console.log(currentYOffset);
+    // console.log(currentYOffset);
 
     switch (currentScene) {
       case 0:
         // console.log("0 play");
         // css제어
-        let messageA_opacity_0 = values.messageA_opacity[0];
-        let messageA_opacity_1 = values.messageA_opacity[1];
-        // console.log(calcValues(values.messageA_opacity, currentYOffset));
+        // opacity를 비율에 맞춰 계산해준다
+        let messageA_opacity_in = calcValues(
+          values.messageA_opacity,
+          currentYOffset
+        );
+        // 위에서 계산한 opacity값을 스타일에 적용해줌
+        objs.messageA.style.opacity = messageA_opacity_in;
 
         break;
       case 1:
