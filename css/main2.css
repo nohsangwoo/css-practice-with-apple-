@@ -24,11 +24,13 @@ a {
 /* 네비게이션 높이 */
 .global-nav {
   height: 44px;
+  padding: 0 1rem;
 }
 
 .local-nav {
   height: 52px;
   border-bottom: 1px solid #ddd;
+  padding: 0 1rem;
 }
 
 /* 네비게이션 가로 */
@@ -55,14 +57,40 @@ a {
   margin-left: 2em;
 }
 
-.apple-icon {
-  position: absolute;
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(0px 0px 99.9% 99.9%);
-  overflow: hidden;
-  height: 1px;
-  width: 1px;
-  padding: 0;
-  border: 0;
-  top: 50%;
+.scroll-section {
+  padding-top: 50vh;
+}
+
+#scroll-section-0 h1 {
+  padding-top: 50vh;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.main-message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+  height: 3em;
+  font-size: 2.5rem;
+}
+
+.main-message > p {
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.description {
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  color: #888;
+}
+.description > strong {
+  float: left;
+  margin-right: 0.2em;
+  font-size: 3rem;
+  color: rgb(29, 29, 31);
 }
