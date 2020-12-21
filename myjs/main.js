@@ -1,5 +1,8 @@
 (() => {
   let yOffset = 0; //window.pageYOffset 대신 쓸 변수
+  let prevScrollHeight = 0; //현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
+  let currentScene = 0; //현재 활성화된(눈 앞에 보고잇는) 씬(scroll-section) index
+
   const sceneInfo = [
     {
       // 0
@@ -49,17 +52,43 @@
         i
       ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
     }
-    console.log(sceneInfo);
-
     // window의 크기가 변하면(사용자 기기의 브라우저의 크기를 임의로 변경시) setLayout을 실행해준다(창의 높이를 재설정해준다)
     window.addEventListener("resize", setLayout);
 
+    // 스크롤된 이전의 height 총합
     function scrollLoop() {
-      // 현재 스크롤의 위치를 가져옴
-      console.log(yOffset);
+      prevScrollHeight = 0;
+      for (let i = 0; i < currentScene; i++) {
+        prevScrollHeight = prevScrollHeight + sceneInfo[i].scrollHeight;
+      }
+
+      //   만약 yOffset(현재 스크롤 위치) 가  prevScrollHeight(상단영역의 총합)보다 커진다면  currentScene을 +1해줌
+      if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+        currentScene = currentScene + 1;
+      }
+      if (yOffset < prevScrollHeight) {
+        if (currentScene > 0) {
+          currentScene = currentScene - 1;
+        } else {
+          return;
+        }
+      }
+      console.log(
+        "현재스크롤위치: ",
+        yOffset,
+        "//  상단 화면의 총합: ",
+        prevScrollHeight,
+        " // 현재 인덱스: ",
+        currentScene
+      );
+
+      console.log();
+
+      console.log();
     }
     // 스크롤될때 이벤트 작동
     window.addEventListener("scroll", () => {
+      // 현재 스크롤의 위치를 가져옴
       yOffset = window.pageYOffset;
       scrollLoop();
     });
