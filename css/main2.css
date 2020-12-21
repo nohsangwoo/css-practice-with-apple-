@@ -1,0 +1,68 @@
+@charset 'utf-8';
+
+html {
+  font-family: "Apple SD Gothic", "맑은고딕", "Nanum Gothic", "Noto Sans KR",
+    sans-serif;
+  font-size: 14px;
+}
+
+body {
+  overflow-x: hidden;
+  color: rgb(29, 29, 31);
+  letter-spacing: -0.05em;
+  background: white;
+}
+
+p {
+  line-height: 1.6;
+}
+
+a {
+  color: rgb(29, 29, 31);
+  text-decoration: none;
+}
+/* 네비게이션 높이 */
+.global-nav {
+  height: 44px;
+}
+
+.local-nav {
+  height: 52px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 네비게이션 가로 */
+.global-nav-links,
+.local-nav-links {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.local-nav-links > .product-name {
+  margin-right: auto;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.local-nav-links > a {
+  font-size: 0.8rem;
+}
+.local-nav-links a:not(.product-name) {
+  margin-left: 2em;
+}
+
+.apple-icon {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(0px 0px 99.9% 99.9%);
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  padding: 0;
+  border: 0;
+  top: 50%;
+}
