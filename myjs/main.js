@@ -52,46 +52,65 @@
         i
       ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
     }
-    // window의 크기가 변하면(사용자 기기의 브라우저의 크기를 임의로 변경시) setLayout을 실행해준다(창의 높이를 재설정해준다)
-    window.addEventListener("resize", setLayout);
 
-    // 스크롤된 이전의 height 총합
-    function scrollLoop() {
-      prevScrollHeight = 0;
-      for (let i = 0; i < currentScene; i++) {
-        prevScrollHeight = prevScrollHeight + sceneInfo[i].scrollHeight;
+    // ------------------------finding currentScene index----------------
+    // 새로고침이나 처음 로딩시 currentScene의  index값이 세팅 안되는 것을 잡아주기 위해서
+
+    yOffset = window.pageYOffset;
+    let totalScrollHeight = 0;
+    for (let i = 0; i < sceneInfo.length; i++) {
+      totalScrollHeight = totalScrollHeight + sceneInfo[i].scrollHeight;
+      //   상단컨텐츠의 총 합이 현재 스크롤의 위치보다 커지거나 같아졌을떄
+      //   currentScene을 세팅하고 for문을 멈춤
+      if (totalScrollHeight >= yOffset) {
+        currentScene = i;
+        break;
       }
-
-      //   만약 yOffset(현재 스크롤 위치) 가  prevScrollHeight(상단영역의 총합)보다 커진다면  currentScene을 +1해줌
-      if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
-        currentScene = currentScene + 1;
-      }
-      if (yOffset < prevScrollHeight) {
-        if (currentScene > 0) {
-          currentScene = currentScene - 1;
-        } else {
-          return;
-        }
-      }
-      console.log(
-        "현재스크롤위치: ",
-        yOffset,
-        "//  상단 화면의 총합: ",
-        prevScrollHeight,
-        " // 현재 인덱스: ",
-        currentScene
-      );
-
-      console.log();
-
-      console.log();
     }
-    // 스크롤될때 이벤트 작동
-    window.addEventListener("scroll", () => {
-      // 현재 스크롤의 위치를 가져옴
-      yOffset = window.pageYOffset;
-      scrollLoop();
-    });
+    document.body.setAttribute("id", `show-scene-${currentScene}`);
+    // ------------------------end of finding currentScene index----------------
   }
-  setLayout();
+  // 스크롤 할때마다 작동하는 이벤트 내용들
+  function scrollLoop() {
+    prevScrollHeight = 0;
+    for (let i = 0; i < currentScene; i++) {
+      prevScrollHeight = prevScrollHeight + sceneInfo[i].scrollHeight;
+    }
+    //   만약 yOffset(현재 스크롤 위치) 가  prevScrollHeight(상단영역의 총합)보다 커진다면  currentScene을 +1해줌
+    if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+      currentScene = currentScene + 1;
+      document.body.setAttribute("id", `show-scene-${currentScene}`);
+    }
+    if (yOffset < prevScrollHeight) {
+      if (currentScene > 0) {
+        currentScene = currentScene - 1;
+        document.body.setAttribute("id", `show-scene-${currentScene}`);
+      } else {
+        return;
+      }
+    }
+    //   console.log(
+    //     "현재스크롤위치: ",
+    //     yOffset,
+    //     "//  상단 화면의 총합: ",
+    //     prevScrollHeight,
+    //     " // 현재 인덱스: ",
+    //     currentScene
+    //   );
+
+    //   documnet의 body의 속성을 추가하는데 어떤 속성이냐하면 id속성이다
+  }
+  // 스크롤될때 이벤트 작동
+  window.addEventListener("scroll", () => {
+    // 현재 스크롤의 위치를 가져옴
+    yOffset = window.pageYOffset;
+    scrollLoop();
+  });
+
+  // window의 리소스가 전부 로드된다면 이벤트 실행
+  // window.addEventListener("DOMContentLoaded", setLayout); //DOM만 다 로딩되면 실행됨
+  window.addEventListener("load", setLayout); //이미지까지 싹다 로딩이 돼야 실행됨
+  // window의 크기가 변하면(사용자 기기의 브라우저의 크기를 임의로 변경시) setLayout을 실행해준다(창의 높이를 재설정해준다)
+
+  window.addEventListener("resize", setLayout);
 })();
