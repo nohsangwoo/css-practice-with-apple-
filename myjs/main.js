@@ -78,10 +78,22 @@
     // ------------------------end of finding currentScene index----------------
   }
 
+  function calcValues(values, currentYOffset) {}
+  //   현재 위치하는 Scene에서 돌아가는 애니메이션 정하기
   function playAnimation() {
+    const objs = sceneInfo[currentScene].objs;
+    const values = sceneInfo[currentScene].values;
+    const currentYOffset = yOffset - prevScrollHeight;
+    console.log(currentYOffset);
+
     switch (currentScene) {
       case 0:
         // console.log("0 play");
+        // css제어
+        let messageA_opacity_0 = values.messageA_opacity[0];
+        let messageA_opacity_1 = values.messageA_opacity[1];
+        // console.log(calcValues(values.messageA_opacity, currentYOffset));
+
         break;
       case 1:
         // console.log("1 play");
