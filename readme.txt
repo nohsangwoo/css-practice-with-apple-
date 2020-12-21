@@ -1,5 +1,6 @@
 # canvas 학습용 css 클론코딩 자료 
-
+# Emmet 사용법
+https://docs.emmet.io/cheat-sheet/
 학습을 시작하시기 전에 한번씩 읽어주시길 부탁드려요!
 
 [소스파일 설명 및 업데이트 기록]
