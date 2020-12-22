@@ -2,7 +2,7 @@
   let yOffset = 0; //window.pageYOffset 대신 쓸 변수
   let prevScrollHeight = 0; //현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
   let currentScene = 0; //현재 활성화된(눈 앞에 보고잇는) 씬(scroll-section) index
-
+  let enterNewScene = 0; //새로운 scene이 시작 되는 순간 true
   const sceneInfo = [
     {
       // 0
@@ -102,7 +102,7 @@
         );
         // 위에서 계산한 opacity값을 스타일에 적용해줌
         objs.messageA.style.opacity = messageA_opacity_in;
-
+        console.log(messageA_opacity_in);
         break;
       case 1:
         // console.log("1 play");
@@ -119,17 +119,21 @@
   }
   // 스크롤 할때마다 작동하는 이벤트 내용들
   function scrollLoop() {
+    enterNewScene = false;
+    // ---------------currentScene controll --------------------------------
     prevScrollHeight = 0;
     for (let i = 0; i < currentScene; i++) {
       prevScrollHeight = prevScrollHeight + sceneInfo[i].scrollHeight;
     }
     //   만약 yOffset(현재 스크롤 위치) 가  prevScrollHeight(상단영역의 총합)보다 커진다면  currentScene을 +1해줌
     if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+      enterNewScene = true;
       currentScene = currentScene + 1;
       //   documnet의 body의 속성을 추가하는데 어떤 속성이냐하면 id속성이다
       document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
     if (yOffset < prevScrollHeight) {
+      enterNewScene = true;
       if (currentScene > 0) {
         currentScene = currentScene - 1;
         document.body.setAttribute("id", `show-scene-${currentScene}`);
@@ -137,6 +141,8 @@
         return;
       }
     }
+
+    // ---------------end of currentScene controll --------------------------------
     //   console.log(
     //     "현재스크롤위치: ",
     //     yOffset,
@@ -145,6 +151,12 @@
     //     " // 현재 인덱스: ",
     //     currentScene
     //   );
+
+    // currentScene의 값이 변하는 순간의 값이 이상하게 설정되니깐 변경되는 순간에는 값을 받지 말고 넘겨버리는 기능
+    if (enterNewScene === true) {
+      return;
+    }
+
     playAnimation();
   }
   // 스크롤될때 이벤트 작동
