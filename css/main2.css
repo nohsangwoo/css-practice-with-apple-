@@ -74,6 +74,7 @@ a {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  top: 35vh;
   margin: 5px 0;
   height: 3em;
   font-size: 2.5rem;
@@ -117,6 +118,16 @@ a {
   height: 100px;
   background: rgb(29, 29, 31);
 }
+
+#scroll-section-2 .b {
+  top: 10%;
+  left: 40%;
+}
+
+#scroll-section-2 .b {
+  top: 15%;
+  left: 45%;
+}
 .mid-message {
   max-width: 1000px;
   margin: 0 auto;
@@ -145,7 +156,6 @@ a {
 .sticky-elem {
   display: none;
   position: fixed;
-  top: 0;
   left: 0;
   width: 100%;
 }
@@ -177,6 +187,15 @@ a {
   .desc-message {
     font-weight: bold;
     width: 20%;
+  }
+
+  #scroll-section-2 .b {
+    top: 20%;
+    left: 53%;
+  }
+
+  #scroll-section-2 .b {
+    left: 55%;
   }
   .mid-message {
     font-size: 4vw;

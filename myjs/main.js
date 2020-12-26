@@ -18,7 +18,46 @@
         messageD: document.querySelector("#scroll-section-0 .main-message.d"),
       },
       values: {
-        messageA_opacity: [0, 1],
+        messageA_opacity_in: [
+          0,
+          1,
+          {
+            start: 0.1,
+            end: 0.2,
+          },
+        ],
+        messageA_translateY_in: [
+          20,
+          0,
+          {
+            start: 0.1,
+            end: 0.2,
+          },
+        ],
+        // messageB_opacity: [
+        //   0,
+        //   1,
+        //   {
+        //     start: 0.3,
+        //     end: 0.4,
+        //   },
+        // ],
+        messageA_opacity_out: [
+          1,
+          0,
+          {
+            start: 0.25,
+            end: 0.3,
+          },
+        ],
+        messageA_translateY_out: [
+          0,
+          -20,
+          {
+            start: 0.25,
+            end: 0.3,
+          },
+        ],
       },
     },
     {
@@ -52,9 +91,13 @@
   function setLayout() {
     //   각 스크롤 섹션의 높이 세팅
     for (let i = 0; i < sceneInfo.length; i++) {
-      // 현재 사용자의 기기의 높이를 기준 5배(heightNum)
-      sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
-      //  obj에서 불러온 dom의 height 값을 위에서 지정한 사용자 기기높이의 5배(heightNum)로 지정해줌
+      if (sceneInfo[i].type === "sticky") {
+        // 현재 사용자의 기기의 높이를 기준 5배(heightNum)
+        sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
+      } else if (sceneInfo[i].type === "nomal") {
+        sceneInfo[i].scrollHeight = sceneInfo[i].objs.container.offsetHeight;
+      }
+      //  obj에서 불러온 dom의 height 값을 위에서 지정한 사용자 높이로 지정해줌
       sceneInfo[
         i
       ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
@@ -77,32 +120,79 @@
     document.body.setAttribute("id", `show-scene-${currentScene}`);
     // ------------------------end of finding currentScene index----------------
   }
-
+  // opacity 계산용 함수
+  // opacity 나타남을 비율에 맞춰 계산해준다
   function calcValues(values, currentYOffset) {
+    // 출력용 변수
     let result;
+    // 현재 sceneIndex에서 비율로 따진 스크롤 위치
     const scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
-    result = scrollRatio * (values[1] - values[0]) + values[0];
+    // 각 가기별 계산하여 설정한 scene의 height값
+    const scrollHeight = sceneInfo[currentScene].scrollHeight;
+
+    if (values.length === 3) {
+      // scene에서 start ~ end 사이에 애니메이션 실행 위치 계산
+      const partScrollStart = values[2].start * scrollHeight;
+      const partScrollEnd = values[2].end * scrollHeight;
+      //
+      const partScrollHeight = partScrollEnd - partScrollStart;
+      // yoffset의 위치가 현재씬에서 어디에 위치해있냐에 따른 opacity 상태 설정
+      if (
+        currentYOffset >= partScrollStart &&
+        currentYOffset <= partScrollEnd
+      ) {
+        // opacity 계산
+        result =
+          ((currentYOffset - partScrollStart) / partScrollHeight) *
+            (values[1] - values[0]) +
+          values[0];
+      } else if (currentYOffset < partScrollStart) {
+        result = values[0];
+      } else if (currentYOffset > partScrollEnd) {
+        result = values[1];
+      }
+    } else {
+      result = scrollRatio * (values[1] - values[0]) + values[0];
+    }
     return result;
   }
-  //   현재 위치하는 Scene에서 돌아가는 애니메이션 정하기
+
+  // 현재 위치하는 Scene에서 돌아가는 애니메이션 정하기
   function playAnimation() {
     const objs = sceneInfo[currentScene].objs;
     const values = sceneInfo[currentScene].values;
+    // 현재씬의 좌표(비율 아님)
     const currentYOffset = yOffset - prevScrollHeight;
-    // console.log(currentYOffset);
+    // 현재씬의 높이
+    const scrollHeight = sceneInfo[currentScene].scrollHeight;
+    // 현재씬의 스크롤 위치 비율
+    const scrollRatio = currentYOffset / scrollHeight;
 
     switch (currentScene) {
       case 0:
-        // console.log("0 play");
-        // css제어
-        // opacity를 비율에 맞춰 계산해준다
-        let messageA_opacity_in = calcValues(
-          values.messageA_opacity,
-          currentYOffset
-        );
         // 위에서 계산한 opacity값을 스타일에 적용해줌
-        objs.messageA.style.opacity = messageA_opacity_in;
-        console.log(messageA_opacity_in);
+        if (scrollRatio <= 0.22) {
+          // opacity in animation - 첫번째 씬에서 첫번째 글씨가 나타나는 위치
+          objs.messageA.style.opacity = calcValues(
+            values.messageA_opacity_in,
+            currentYOffset
+          );
+          objs.messageA.style.transform = `translateY(${calcValues(
+            values.messageA_translateY_in,
+            currentYOffset
+          )}%)`;
+        } else {
+          // out animatio - 첫번째 씬에서 첫번째 글씨가 사라지는 위치
+          objs.messageA.style.opacity = calcValues(
+            values.messageA_opacity_out,
+            currentYOffset
+          );
+          objs.messageA.style.transform = `translateY(${calcValues(
+            values.messageA_translateY_out,
+            currentYOffset
+          )}%)`;
+        }
+        console.log(calcValues(values.messageA_opacity_in, currentYOffset));
         break;
       case 1:
         // console.log("1 play");
